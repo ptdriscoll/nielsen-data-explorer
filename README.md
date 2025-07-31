@@ -1,16 +1,19 @@
 # Nielsen Data Explorer
 
-A Python application to analyze and visualize data available from Local Nielsen TV Dashboards for PBS. TV stations have access to average weekly reach and frequency by month, with the ability to segment by age, income, race and ethnicity, and dayparts.
+A Python application to analyze and visualize audience data available from Local Nielsen TV Dashboards for PBS.
 
-Using a raw data download from the Nielsen dashboard, this app produces standard interactive timelines and bar charts using Plotly, but also creates age and income brackets that do not overlap, and allows timelines beyond a year.
+Stations have access to average weekly reach and frequency by month, with the ability to segment by age, income, race and ethnicity, and dayparts.
+
+Using raw data downloaded from Nielsen's dashboard, this app produces standard interactive timelines and bar charts using Plotly, but also creates age and income brackets that do not overlap, and allows timelines beyond a year.
 
 ### Data Setup
 
-This project loads audience data from a CSV, which is downloaded into Excel from the Interactive Pivot Table at the bottom of the dashboard. Then, the name of the file is added as a constant variable at the top of `main.py`:
+- Downloaded a CSV file from the Interactive Pivot Table at the bottom of the Nielsen dashboard
+- Add CSV file to `data` directory
+- At the top of `main.py`, add the CSV file name to `DATA_FILE`, i.e. `DATA_FILE = '2023-01_2025-03.csv`
+- Look for results, including Plotly HTML charts, in the `output` directory
 
-- `DATA_FILE = '2023-01_2025-03.csv`
-
-Learn more about the data:
+Learn about the data:
 
 - [Nielsen Local Data and Dashboard Guide (PDF)](docs/Nielsen-Local-TV-Dashboard.pdf)
 - [Nielsen Local Data and Dashboard FAQ (PDF)](docs/Nielsen-Local-TV-Dashboard-FAQ.pdf)
@@ -37,13 +40,13 @@ In an Anaconda Prompt, from the application's root directory, there are two opti
 
 ### Commands
 
-| Argument          | Short | Default          | Description                                                     |
-| ----------------- | ----- | ---------------- | --------------------------------------------------------------- |
-| `--metric`        | `-m`  | `reach_imp`      | Metric to plot (`reach_imp`, `"reach%"`, `avg_freq`, `grp_imp`) |
-| `--filter`        | `-f`  | `totals`         | Filter from config/ (e.g., `age-brackets`, `dayparts`, `race`)  |
-| `--plot`          | `-p`  | `timeline`       | Type of plot (`timeline`, `bar`)                                |
-| `--month`         |       | _latest in data_ | Month to plot, formatted as `YYYY-MM` (defaults to latest)      |
-| `--compare-month` |       | `None`           | Optional comparison month, formatted as `YYYY-MM`               |
+| Argument          | Short | Default          | Description                                                      |
+| ----------------- | ----- | ---------------- | ---------------------------------------------------------------- |
+| `--metric`        | `-m`  | `reach_imp`      | Metric to plot (`reach_imp`, `"reach%"`, `avg_freq`, `grp_imp`)  |
+| `--filter`        | `-f`  | `totals`         | Filter from `config/` (e.g., `age-brackets`, `dayparts`, `race`) |
+| `--plot`          | `-p`  | `timeline`       | Type of plot (`timeline`, `bar`)                                 |
+| `--month`         |       | _latest in data_ | Month to plot, formatted as `YYYY-MM` (defaults to latest)       |
+| `--compare-month` |       | `None`           | Optional comparison month, formatted as `YYYY-MM`                |
 
 Examples:
 
