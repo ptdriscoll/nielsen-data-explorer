@@ -1,0 +1,13 @@
+{
+  "daypart": "M-SU 3A-3A",
+  "demographic": "P2+",
+  "characteristic": [
+    "Less than $25K", 
+    "$25K+", 
+    "$50K+", 
+    "$75K+", 
+    "$100K+", 
+    "$200K+"
+  ],
+  "title": "Income Levels"
+}

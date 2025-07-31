@@ -1,0 +1,38 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# virtual environment directories
+venv/
+env/
+
+# ignore all data and output files except .gitkeep
+data/*
+output/*
+!data/.gitkeep
+!output/.gitkeep
+
+# ignore sandbox files
+src/explore.py
+
+# additional files
+reference/
+*.log
+*.tmp
+.env
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Linux
+*~
+
+# Vim swap files
+*.swp
+
+# backup files
+*.bak

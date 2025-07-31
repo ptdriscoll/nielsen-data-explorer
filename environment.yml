@@ -1,0 +1,11 @@
+name: nielsen-data-explorer
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.13
+  - pandas
+  - matplotlib
+  - plotly
+  - nbformat # for Spyder and Jupyter kernel support
+  - spyder-kernels
