@@ -13,7 +13,7 @@ Using raw data downloaded from Nielsen's dashboard, this app produces standard i
 - At the top of `main.py`, add the CSV file name to `DATA_FILE`, i.e. `DATA_FILE = '2023-01_2025-03.csv`
 - Look for results, including Plotly HTML charts, in the `output` directory
 
-Learn about the data:
+Learn about the data and dashboard:
 
 - [Nielsen Local Data and Dashboard Guide (PDF)](docs/Nielsen-Local-TV-Dashboard.pdf)
 - [Nielsen Local Data and Dashboard FAQ (PDF)](docs/Nielsen-Local-TV-Dashboard-FAQ.pdf)
