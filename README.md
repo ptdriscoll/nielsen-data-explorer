@@ -92,6 +92,6 @@ nielsen-data-explorer/
 - [Nielsen Local Data and Dashboard FAQ (PDF)](docs/Nielsen-Local-TV-Dashboard-FAQ.pdf)
 - [Plotly Express](https://plotly.com/python/plotly-express/)
 - [Pandas](https://pandas.pydata.org/)
-- [Python argparseI](https://docs.python.org/3/library/argparse.html)
+- [Python argparse](https://docs.python.org/3/library/argparse.html)
 - [Anaconda](https://www.anaconda.com/download/)
 - [Miniconda](https://docs.anaconda.com/miniconda/)
