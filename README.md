@@ -77,7 +77,7 @@ nielsen-data-explorer/
 ├─ docs/
 ├─ output/
 │  ├─ csv/
-│  └─ html.py
+│  └─ html/
 ├─ src/
 │  ├─ __init__.py
 │  ├─ filters.py    # filtering logic
