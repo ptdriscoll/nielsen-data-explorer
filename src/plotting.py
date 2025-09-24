@@ -35,7 +35,7 @@ def common_layout(
         Figure: The updated Plotly figure with applied layout.
     """
     font_family = '"Open Sans", verdana, arial, sans-serif'
-    font_color = 'rgb(115, 115, 115)'
+    font_color = 'rgb(71, 71, 71)'
     y_max = df[y].max() * 1.12 if df is not None and y in df else None
     
     fig.update_layout(
