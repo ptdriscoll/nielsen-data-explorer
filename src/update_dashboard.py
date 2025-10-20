@@ -3,7 +3,7 @@ from pathlib import Path
 import re
 import webbrowser
 
-def run():
+def run(open_webbrowser=False):
     html_dir = Path('output/html')
     output_path = Path('index.html')
 
@@ -47,8 +47,8 @@ def run():
 
     print(f'\nDashboard updated: {output_path}')
 
-    # open or reload dashboard
-    webbrowser.open(output_path.resolve().as_uri(), new=0)
+    # open dashboard if flagged to open
+    if open_webbrowser: webbrowser.open(output_path.resolve().as_uri(), new=0)
 
 if __name__ == '__main__':
-    run()
+    run(open_webbrowser=True)
