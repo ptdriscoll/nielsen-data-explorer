@@ -14,9 +14,9 @@ Usage examples:
 
 
 import os
-import argparse, webbrowser
+import argparse
 import pandas as pd
-from src import utils, filters, plotting
+from src import utils, filters, plotting, update_dashboard
 
 # custom values
 DATA_FILE = '2023-01_2025-06.csv'
@@ -119,7 +119,7 @@ def main() -> None:
             output_file=output_html, 
         )
         
-    webbrowser.open(output_html)     
+    update_dashboard.run()     
 
 # only run when this script is executed directly
 if __name__ == '__main__':
