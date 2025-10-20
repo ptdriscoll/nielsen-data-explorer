@@ -8,7 +8,7 @@ Using raw data downloaded from Nielsen's dashboard, this app produces standard i
 
 Opening `index.html` as a local web page in a browser displays a dashboard, including a dropdown to select generated graphs.
 
-![Nielsen Data Explorer Dashboard](images/Nielsen-Data-Explorer-Dashboard.jpg)
+![Nielsen Data Explorer Dashboard 2](images/Nielsen-Data-Explorer-Dashboard-2.jpg)
 
 ### Data Setup
 
@@ -41,6 +41,8 @@ In an Anaconda Prompt, from the application's root directory, there are two opti
   - **Create Environment:** `conda env create -p venv -f environment.yml`
   - **Activate Environment:** `conda activate ./venv`
   - **Update Environment:** `conda env update -p ./venv -f environment.yml --prune`
+
+![Nielsen Data Explorer Dashboard](images/Nielsen-Data-Explorer-Dashboard.jpg)
 
 ### Commands
 
