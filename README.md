@@ -84,9 +84,11 @@ nielsen-data-explorer/
 │  └─ html/
 ├─ src/
 │  ├─ __init__.py
-│  ├─ filters.py    # filtering logic
-│  ├─ plotting.py   # plotting helpers
-│  └─ utils.py      # data prep
+│  ├─ filters.py          # filtering logic
+│  ├─ plotting.py         # plotting helpers
+│  ├─ update_dashboard.py # updates <option> elements in index.html
+│  └─ utils.py            # data prep
+├─ index.html             # web page to display graphs
 ├─ main.py
 ```
 
