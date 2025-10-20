@@ -1,0 +1,54 @@
+import os
+from pathlib import Path
+import re
+import webbrowser
+
+def run():
+    html_dir = Path('output/html')
+    output_path = Path('index.html')
+
+    if not html_dir.exists():
+        print(f'Directory not found: {html_dir}')
+        return
+    
+    # get list of .html files (preserve directory order), and determine newest file
+    files = [f for f in html_dir.iterdir() if f.is_file() and f.suffix == '.html']
+
+    # build HTML <select> element
+    if not files:
+        select_block = '      <p>No files to display.</p>'
+    else:
+        newest_file = max(files, key=lambda f: f.stat().st_mtime).name
+        option_lines = []
+        for f in files:
+            selected_attr = ' selected' if f.name == newest_file else ''
+            option_lines.append(f'        <option value="output/html/{f.name}"{selected_attr}>{f.name}</option>')
+        
+        options = '\n'.join(option_lines)
+        select_block = (
+            '      <select id="plotSelect">\n'
+            f'{options}\n'
+            '      </select>'
+        )
+
+    # read HTML file
+    html = output_path.read_text(encoding='utf-8')
+
+    # replace <select> element
+    updated_html = re.sub(
+        r' {6}<select id=\"plotSelect\">.*?</select>',
+        select_block,
+        html,
+        flags=re.DOTALL
+    )   
+
+    # write updated html 
+    output_path.write_text(updated_html, encoding='utf-8')
+
+    print(f'\nDashboard updated: {output_path}')
+
+    # open or reload dashboard
+    webbrowser.open(output_path.resolve().as_uri(), new=0)
+
+if __name__ == '__main__':
+    run()

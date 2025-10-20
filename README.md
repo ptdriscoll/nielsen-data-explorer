@@ -6,6 +6,10 @@ Stations have access to average weekly reach and frequency by month, with the ab
 
 Using raw data downloaded from Nielsen's dashboard, this app produces standard interactive timelines and bar charts using Plotly, but also creates age and income brackets that do not overlap, and allows timelines beyond a year.
 
+Opening `index.html` as a local web page in a browser displays a dashboard, including a dropdown to select generated graphs.
+
+![Nielsen Data Explorer Dashboard](images/Nielsen-Data-Explorer-Dashboard.jpg)
+
 ### Data Setup
 
 - Downloaded a CSV file from the Interactive Pivot Table at the bottom of the Nielsen dashboard

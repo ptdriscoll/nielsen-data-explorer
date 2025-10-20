@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nielsen Data Explorer</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        padding: 1rem;
+        font-size: 1rem;
+        font-weight: 400;
+        color: #555;
+      }
+      select,
+      input,
+      button {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 0.6rem;
+        color: #555;
+        transition: background-color 0.2s ease-out, transform 0.2s ease-out;
+      }
+      select,
+      button {
+        cursor: pointer;
+      }
+      select {
+        padding-right: 1.8rem;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.5rem center;
+        background-size: 1rem;
+      }
+      button {
+        background-color: #eee;
+      }
+      button:hover {
+        background-color: #777;
+        color: #fff;
+      }
+      button:active {
+        background-color: #0056b3;
+        color: #fff;
+        transform: translateY(2px);
+      }
+      iframe {
+        border: 5px solid #eee;
+        margin: 1.5rem;
+        background-color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Nielsen Data Explorer</h1>
+
+    <form>
+      <label for="plotSelect">Choose a plot:</label>
+      <select id="plotSelect">
+        <option value="output/html/bar_income-brackets_reach_imp.html">bar_income-brackets_reach_imp.html</option>
+        <option value="output/html/timeline_age-brackets_reach_imp.html">timeline_age-brackets_reach_imp.html</option>
+        <option value="output/html/timeline_dayparts_reach%.html">timeline_dayparts_reach%.html</option>
+        <option value="output/html/timeline_totals_reach_imp.html" selected>timeline_totals_reach_imp.html</option>
+      </select>
+    </form>
+
+    <iframe id="plotFrame"></iframe>
+
+    <form>
+      <label for="widthInput">Width (px):</label>
+      <input type="number" id="widthInput" name="width" value="1000" min="1" />
+
+      &nbsp;&nbsp;
+
+      <label for="heightInput">Height (px):</label>
+      <input type="number" id="heightInput" name="height" value="600" min="1" />
+
+      &nbsp;&nbsp;&nbsp;
+
+      <button type="button" id="applySizeBtn">Apply Size</button>
+
+      &nbsp;&nbsp;&nbsp;
+
+      <button type="button" id="printSizeBtn">Print Size</button>
+    </form>
+
+    <script>
+      const select = document.getElementById('plotSelect');
+      const selected = select.querySelector('option[selected]');
+      const frame = document.getElementById('plotFrame');
+      const widthInput = document.getElementById('widthInput');
+      const heightInput = document.getElementById('heightInput');
+      const applyBtn = document.getElementById('applySizeBtn');
+      const printBtn = document.getElementById('printSizeBtn');
+
+      //function to apply width and height to iframe
+      function applySize(
+        w = parseInt(widthInput.value, 10),
+        h = parseInt(heightInput.value, 10)
+      ) {
+        console.log(w, h);
+        frame.style.width = w + 'px';
+        frame.style.height = h + 'px';
+        widthInput.value = w;
+        heightInput.value = h;
+      }
+
+      //set iframe src when page loads
+      window.addEventListener('load', () => {
+        applySize();
+        if (selected) {
+          frame.style.backgroundColor = '#fff';
+          frame.src = selected.value;
+        }
+      });
+
+      //load plot when selection changes
+      select.addEventListener('change', () => {
+        const value = select.value;
+        if (value) {
+          frame.style.backgroundColor = '#fff';
+          frame.src = value;
+        }
+      });
+
+      //apply size when an apply button is clicked
+      applyBtn.addEventListener('click', () => applySize());
+      printBtn.addEventListener('click', () => applySize(800, 500));
+    </script>
+  </body>
+</html>
