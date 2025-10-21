@@ -29,16 +29,21 @@ CSV_OUTPUT_DIR = os.path.join(OUTPUT_DIR, 'csv')
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument('-m', '--metric', default='reach_imp',
-                        help=(
-                             'metric to plot (e.g., reach_imp, grp_imp, "reach%%", avg_freq), but for the '
-                             'filters income-brackets and age-brackets, only reach_imp and grp_imp apply'))
+                        help=('metric to plot (e.g., reach_imp, grp_imp, "reach%%", avg_freq), but for the '
+                              'filters income-brackets and age-brackets, only reach_imp and grp_imp apply'))
     parser.add_argument('-f', '--filter', default='totals', 
                         help='name of JSON filter (without file extension) in config/')
     parser.add_argument('-p', '--plot', choices=['timeline', 'bar'], default='timeline')
     parser.add_argument('--month', help='Month to plot, in YYYY-MM format')
     parser.add_argument('--compare-month', help='Optional comparison month in YYYY-MM format') 
+    parser.add_argument('-d', '--dashboard', action='store_true', help='Update and open local index.html dashboard')
     
     args = parser.parse_args()
+
+    # if command calls for updating and opening dashboard, do that and exit early
+    if args.dashboard:
+        update_dashboard.run(open_webbrowser=True)
+        return
 
     # load and filter data
     df = utils.load_data(DATA_PATH)

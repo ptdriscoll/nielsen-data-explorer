@@ -53,6 +53,7 @@ In an Anaconda Prompt, from the application's root directory, there are two opti
 | `--plot`          | `-p`  | `timeline`       | Type of plot (`timeline`, `bar`)                                 |
 | `--month`         |       | _latest in data_ | Month to plot, formatted as `YYYY-MM` (defaults to latest)       |
 | `--compare-month` |       | `None`           | Optional comparison month, formatted as `YYYY-MM`                |
+| `--dashboard`     | `-d`  |                  | Update and open local index.html dashboard                       |
 
 Examples:
 
