@@ -75,6 +75,9 @@ Examples:
 - Reach impressions for races and ethnicity in a bar chart for March 2023 and March 2025  
   `python main.py --plot bar --filter race --month 2025-03 --compare-month 2023-03`
 
+- Update and open `index.html` dashboard as local web page  
+  `python main.py --dashboard`
+
 ### Directory Structure
 
 ```
