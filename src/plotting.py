@@ -84,12 +84,18 @@ def format_tooltip(df: pd.DataFrame, x: str, y: str, color: str | None = None) -
             - hovertemplate (str): A Plotly-formatted string for displaying tooltips.
             - customdata (str): A comma-separated string of column names used in customdata.
     """
+    # format x
     if pd.api.types.is_datetime64_any_dtype(df[x]):         
         df['x_fmt'] = pd.to_datetime(df[x]).dt.strftime('%b %Y') # like 'Apr 2025'
     else:
         df['x_fmt'] = df[x].astype(str)
         
-    df['metric_fmt'] = df[y].apply(lambda x: f'{int(round(x)):,}') # like 36,720
+    # format y    
+    float_metrics = {'reach%', 'avg_freq'}
+    if y in float_metrics: 
+        df['metric_fmt'] = df[y].apply(lambda v: f'{v:,.2f}') # like 5.30
+    else: 
+        df['metric_fmt'] = df[y].apply(lambda x: f'{int(round(x)):,}') # like 36,720
     
     custom_cols = ['x_fmt', 'metric_fmt']
     if color: custom_cols.append(color)
