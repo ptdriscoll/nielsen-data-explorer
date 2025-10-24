@@ -46,19 +46,22 @@ In an Anaconda Prompt, from the application's root directory, there are two opti
 
 ### Commands
 
-| Argument          | Short | Default          | Description                                                      |
-| ----------------- | ----- | ---------------- | ---------------------------------------------------------------- |
-| `--metric`        | `-m`  | `reach_imp`      | Metric to plot (`reach_imp`, `"reach%"`, `avg_freq`, `grp_imp`)  |
-| `--filter`        | `-f`  | `totals`         | Filter from `config/` (e.g., `age-brackets`, `dayparts`, `race`) |
-| `--plot`          | `-p`  | `timeline`       | Type of plot (`timeline`, `bar`)                                 |
-| `--month`         |       | _latest in data_ | Month to plot, formatted as `YYYY-MM` (defaults to latest)       |
-| `--compare-month` |       | `None`           | Optional comparison month, formatted as `YYYY-MM`                |
-| `--dashboard`     | `-d`  |                  | Update and open local index.html dashboard                       |
+| Argument          | Short | Default             | Description                                                       |
+| ----------------- | ----- | ------------------- | ----------------------------------------------------------------- |
+| `--metric`        | `-m`  | `reach_imp`         | Metric to plot (`reach_imp`, `"reach%"`, `avg_freq`, `grp_imp`)   |
+| `--filter`        | `-f`  | `totals`            | Filter from `config/` (e.g., `age-brackets`, `dayparts`, `race`)  |
+| `--plot`          | `-p`  | `timeline`          | Type of plot (`timeline`, `bar`)                                  |
+| `--month`         |       | _latest in data_    | Bar chart month, or timeline end month (`YYYY-MM`)                |
+| `--compare-month` |       | `None` / _earliest_ | Optional, for bar chart comparison, or timeline start (`YYYY-MM`) |
+| `--dashboard`     | `-d`  |                     | Update and open local index.html dashboard                        |
 
 Examples:
 
 - Reach impression totals in a timeline for all months  
   `python main.py`
+
+- Reach impression totals in a timeline from March 2023 to March 2025  
+  `python main.py --month 2025-03 --compare-month 2023-03`
 
 - Reach percentages for dayparts in a timeline for all months  
   `python main.py --filter dayparts --metric "reach%"`

@@ -34,8 +34,8 @@ def main() -> None:
     parser.add_argument('-f', '--filter', default='totals', 
                         help='name of JSON filter (without file extension) in config/')
     parser.add_argument('-p', '--plot', choices=['timeline', 'bar'], default='timeline')
-    parser.add_argument('--month', help='Month to plot, in YYYY-MM format')
-    parser.add_argument('--compare-month', help='Optional comparison month in YYYY-MM format') 
+    parser.add_argument('--month', help='Month to plot for bar chart, or timeline\'s end month, in YYYY-MM format')
+    parser.add_argument('--compare-month', help='Optional comparison month for bar chart, or timeline\'s start month, in YYYY-MM format') 
     parser.add_argument('-d', '--dashboard', action='store_true', help='Update and open local index.html dashboard')
     
     args = parser.parse_args()
@@ -49,6 +49,7 @@ def main() -> None:
     df = utils.load_data(DATA_PATH)
     config = filters.load_filter_config(args.filter)
     df = filters.apply_filters(df, config) 
+    month_dt, compare_dt = utils.get_selected_months(df, args)
     
     # create output directories
     for directory in [HTML_OUTPUT_DIR, CSV_OUTPUT_DIR]:
@@ -56,8 +57,8 @@ def main() -> None:
 
     # handle custom bracket columns, if needed
     error_msg = (
-        f"For the filters 'income-brackets' or 'age-brackets', only the metrics "
-        f"'reach_imp' and 'grp_imp' are allowed, not '{args.metric}'."
+        f'For the filters "income-brackets" or "age-brackets", only the metrics '
+        f'"reach_imp" and "grp_imp" are allowed, not "{args.metric}".'
     )
     
     if args.filter == 'income-brackets':
@@ -82,8 +83,11 @@ def main() -> None:
     title = f'{plotting.clean(args.metric)} for {config["title"]}'
 
     if args.plot == 'timeline':
+        # filter range of months (inclusive)
+        df_timeline = df[(df['month'] >= compare_dt) & (df['month'] <= month_dt)]
+
         # aggregate trend, and set legend order for plot if applicable 
-        trend = df.groupby(group_cols, as_index=False)[args.metric].sum()
+        trend = df_timeline.groupby(group_cols, as_index=False)[args.metric].sum()
         trend = filters.set_ordered_categories(trend, group_col, config)        
         
         plotting.plot_timeline(
@@ -96,27 +100,25 @@ def main() -> None:
             config=config)
         
     if args.plot == 'bar':
-        # filter by months
-        months = [args.month or df['month'].max().strftime('%Y-%m')]        
-        if args.compare_month: months.append(args.compare_month)    
-        try: months = pd.to_datetime(months, format='%Y-%m') 
-        except ValueError as e: raise ValueError('Month format must be YYYY-MM, e.g., 2025-03') from e
-        df = df[df['month'].isin(months)]
-        
+        # keep only selected months
+        months = [month_dt]
+        if compare_dt: months.append(compare_dt)
+        df_bar = df[df['month'].isin(months)]
+ 
         # aggregate by month/s and any categories, and format month
-        bar_df = df.groupby(group_cols, as_index=False)[args.metric].sum()
-        bar_df['month'] = bar_df['month'].dt.strftime('%b %Y')
+        bar = df_bar.groupby(group_cols, as_index=False)[args.metric].sum()
+        bar['month'] = bar['month'].dt.strftime('%b %Y')
     
         # force category order for grouping column
-        bar_df = filters.set_ordered_categories(bar_df, group_col, config)
+        bar = filters.set_ordered_categories(bar, group_col, config)
     
         # append title
-        month_label = months[0].strftime('%b %Y')
-        comparison = f"{months[1].strftime('%b %Y')} vs. " if len(months) > 1 else ""
-        title += f" - {comparison}{month_label}"
+        month_label = month_dt.strftime('%b %Y')
+        comparison = f'{compare_dt.strftime("%b %Y")} vs. ' if compare_dt else ''
+        title += f' - {comparison}{month_label}'
     
         plotting.plot_bar(
-            bar_df,
+            bar,
             x=group_col if group_col else 'month',
             y=args.metric,
             color='month' if group_col and len(months) > 1 else None,
