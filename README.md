@@ -53,6 +53,7 @@ In an Anaconda Prompt, from the application's root directory, there are two opti
 | `--plot`          | `-p`  | `timeline`          | Type of plot (`timeline`, `bar`)                                  |
 | `--month`         |       | _latest in data_    | Bar chart month, or timeline end month (`YYYY-MM`)                |
 | `--compare-month` |       | `None` / _earliest_ | Optional, for bar chart comparison, or timeline start (`YYYY-MM`) |
+| `--run-all`       | `-a`  |                     | Run plots for all filters and metrics                             |
 | `--dashboard`     | `-d`  |                     | Update and open local index.html dashboard                        |
 
 Examples:
