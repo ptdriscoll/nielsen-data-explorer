@@ -3,6 +3,33 @@ from pathlib import Path
 import re
 import webbrowser
 
+# mapping of filename parts to friendly display names
+rename_map = {     
+    'avg-freq': 'Average Frequency', 
+    'reach%': 'Reach Percentage',
+    'grp-imp': 'Group Impressions',
+    'reach-imp': 'Reach Impressions',
+    'age-brackets': 'Age Brackets',
+    'age-levels': 'Age Levels',
+    'dayparts': 'Dayparts',
+    'income-brackets': 'Income Brackets',
+    'income-levels': 'Income Levels',
+    'race': 'Race and Ethnicity',
+    'totals': 'Totals',
+    'bar': 'Bar Chart',
+    'timeline': 'Timeline'
+}
+
+def display_name(filename: str, rename_map: dict) -> str:
+    """Convert a filename into a friendly display name."""
+    name = filename.rsplit('.', 1)[0]  # remove .html
+    parts = name.split('_')
+    friendly_parts = [
+        rename_map.get(part, part.replace('-', ' ').replace('_', ' ').title())
+        for part in parts
+    ]
+    return ' | '.join(friendly_parts) if len(friendly_parts) > 1 else friendly_parts[0]
+    
 def run(open_webbrowser=False):
     html_dir = Path('output/html')
     output_path = Path('index.html')
@@ -22,7 +49,8 @@ def run(open_webbrowser=False):
         option_lines = []
         for f in files:
             selected_attr = ' selected' if f.name == newest_file else ''
-            option_lines.append(f'        <option value="output/html/{f.name}"{selected_attr}>{f.name}</option>')
+            selected_name = display_name(f.name, rename_map)
+            option_lines.append(f'        <option value="output/html/{f.name}"{selected_attr}>{selected_name}</option>')
         
         options = '\n'.join(option_lines)
         select_block = (

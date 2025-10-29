@@ -71,7 +71,8 @@ def make_plot(df: pd.DataFrame, metric: str, filter: str, plot: str,
     if group_col: group_cols.append(group_col)    
     
     # plot
-    output_html = os.path.join(HTML_OUTPUT_DIR, f'{plot}_{filter}_{metric}.html')
+    metric_filename = metric.replace('_', '-')
+    output_html = os.path.join(HTML_OUTPUT_DIR, f'{plot}_{filter}_{metric_filename}.html')
     title = f'{plotting.clean(metric)} for {config["title"]}'
 
     if plot == 'timeline':
@@ -133,6 +134,9 @@ def main() -> None:
     parser.add_argument('-d', '--dashboard', action='store_true', help='Update and open local index.html dashboard')
     
     args = parser.parse_args()
+
+    print()
+    print(args)
 
     # if command calls for updating and opening dashboard, do that and exit early
     if args.dashboard:
