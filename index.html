@@ -140,12 +140,12 @@
 
     <script>
       const select = document.getElementById('plotSelect');
-      const selected = select.querySelector('option[selected]');
       const frame = document.getElementById('plotFrame');
       const widthInput = document.getElementById('widthInput');
       const heightInput = document.getElementById('heightInput');
       const applyBtn = document.getElementById('applySizeBtn');
       const printBtn = document.getElementById('printSizeBtn');
+      let currentPlot = select.value.replace(/^output\/html\/|\.html$/g, '');
 
       //function to apply width and height to iframe
       function applySize(
@@ -160,9 +160,9 @@
       }
 
       //set select's value and iframe location path
-      function selectAndUpdate(baseName) {
+      function selectAndUpdate(plotName) {
         const match = [...select.options].find((opt) =>
-          opt.value.endsWith(`${baseName}.html`)
+          opt.value.endsWith(`${plotName}.html`)
         );
         if (match) {
           select.value = match.value;
@@ -171,9 +171,9 @@
       }
 
       //create url with search query to reflect current plot
-      function makeUrl(baseName) {
+      function makeUrl(plotName) {
         const url = new URL(window.location);
-        url.searchParams.set('plot', baseName);
+        url.searchParams.set('plot', plotName);
         return url;
       }
 
@@ -192,9 +192,8 @@
         if (plot) {
           selectAndUpdate(plot); //url already has plot query parameter
         } else {
-          const baseName = select.value.replace(/^output\/html\/|\.html$/g, '');
-          const url = makeUrl(baseName);
-          selectAndUpdate(baseName);
+          const url = makeUrl(currentPlot);
+          selectAndUpdate(currentPlot);
           history.replaceState({}, '', url);
         }
 
@@ -203,17 +202,25 @@
 
       //load new plot when selection changes
       select.addEventListener('change', () => {
-        const baseName = select.value.replace(/^output\/html\/|\.html$/g, '');
-        const url = makeUrl(baseName);
-        selectAndUpdate(baseName);
-        history.pushState({}, '', url);
+        const plotName = select.value.replace(/^output\/html\/|\.html$/g, '');
+        const url = makeUrl(plotName);
+
+        //update plot only if new selection is different from last
+        if (plotName !== currentPlot) {
+          selectAndUpdate(plotName);
+          history.pushState({}, '', url);
+          currentPlot = plotName;
+        }
       });
 
       //handle browser back and forward clicks
       window.addEventListener('popstate', () => {
         const params = new URLSearchParams(window.location.search);
         const plot = params.get('plot');
-        if (plot) selectAndUpdate(plot);
+        if (plot) {
+          selectAndUpdate(plot);
+          currentPlot = plot;
+        }
       });
     </script>
   </body>
