@@ -6,12 +6,17 @@
     <title>Nielsen Data Explorer</title>
     <style>
       body {
+        opacity: 0;
+        transition: opacity 0.5s ease-in;
         font-family: sans-serif;
         text-align: center;
         padding: 1rem;
         font-size: 1rem;
         font-weight: 400;
         color: #555;
+      }
+      body.fade-in {
+        opacity: 1;
       }
       select,
       input,
@@ -50,6 +55,9 @@
         border: 5px solid #eee;
         margin: 1.5rem;
         background-color: #eee;
+      }
+      iframe.whiteBackground {
+        background-color: #fff;
       }
     </style>
   </head>
@@ -151,27 +159,62 @@
         heightInput.value = h;
       }
 
-      //set iframe src when page loads
-      window.addEventListener('load', () => {
-        applySize();
-        if (selected) {
-          frame.style.backgroundColor = '#fff';
-          frame.src = selected.value;
+      //set select's value and iframe location path
+      function selectAndUpdate(baseName) {
+        const match = [...select.options].find((opt) =>
+          opt.value.endsWith(`${baseName}.html`)
+        );
+        if (match) {
+          select.value = match.value;
+          frame.contentWindow.location.replace(match.value);
         }
-      });
+      }
 
-      //load plot when selection changes
-      select.addEventListener('change', () => {
-        const value = select.value;
-        if (value) {
-          frame.style.backgroundColor = '#fff';
-          frame.src = value;
-        }
-      });
+      //create url with search query to reflect current plot
+      function makeUrl(baseName) {
+        const url = new URL(window.location);
+        url.searchParams.set('plot', baseName);
+        return url;
+      }
 
       //apply size when an apply button is clicked
       applyBtn.addEventListener('click', () => applySize());
       printBtn.addEventListener('click', () => applySize(800, 500));
+
+      //set iframe src when page loads
+      window.addEventListener('load', () => {
+        const params = new URLSearchParams(window.location.search);
+        const plot = params.get('plot');
+
+        applySize();
+        frame.classList.add('whiteBackground');
+
+        if (plot) {
+          selectAndUpdate(plot); //url already has plot query parameter
+        } else {
+          const baseName = select.value.replace(/^output\/html\/|\.html$/g, '');
+          const url = makeUrl(baseName);
+          selectAndUpdate(baseName);
+          history.replaceState({}, '', url);
+        }
+
+        document.body.classList.add('fade-in');
+      });
+
+      //load new plot when selection changes
+      select.addEventListener('change', () => {
+        const baseName = select.value.replace(/^output\/html\/|\.html$/g, '');
+        const url = makeUrl(baseName);
+        selectAndUpdate(baseName);
+        history.pushState({}, '', url);
+      });
+
+      //handle browser back and forward clicks
+      window.addEventListener('popstate', () => {
+        const params = new URLSearchParams(window.location.search);
+        const plot = params.get('plot');
+        if (plot) selectAndUpdate(plot);
+      });
     </script>
   </body>
 </html>
