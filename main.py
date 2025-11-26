@@ -19,7 +19,7 @@ import pandas as pd
 from src import utils, filters, plotting, update_dashboard
 
 # custom values
-DATA_FILE = '2023-01_2025-06.csv'
+DATA_FILE = '2023-01_2025-09.csv'
 OUTPUT_DIR = 'output'
 
 DATA_PATH = os.path.join('data', DATA_FILE)
