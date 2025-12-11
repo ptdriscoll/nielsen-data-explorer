@@ -180,6 +180,13 @@
       //apply size when an apply button is clicked
       applyBtn.addEventListener('click', () => applySize());
       printBtn.addEventListener('click', () => applySize(800, 500));
+      
+      //convert hash (#...) to query (?plot=...) 
+      if (!window.location.search && window.location.hash) {
+        const hashValue = window.location.hash.substring(1);
+        const newUrl = window.location.pathname + '?plot=' + encodeURIComponent(hashValue);
+        window.location.replace(newUrl);
+      }
 
       //set iframe src when page loads
       window.addEventListener('load', () => {
